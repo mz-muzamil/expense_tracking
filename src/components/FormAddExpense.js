@@ -11,11 +11,11 @@ const FormAddExpense = ({ expnData, setExpnData }) => {
     setExpnData([...expnData, newExpense]);
     form.resetFields();
   };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
-  const onCategoryChange = (value) => {
-    console.log("Category selected:", value);
+
+  const handleAmountFieldChange = (e) => {
+    const { value } = e.target;
+    const filteredValue = value.replace(/[^0-9]/g, "");
+    form.setFieldsValue({ amount: filteredValue });
   };
 
   return (
@@ -24,7 +24,6 @@ const FormAddExpense = ({ expnData, setExpnData }) => {
         form={form}
         layout={"vertical"}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <TextField
@@ -47,6 +46,7 @@ const FormAddExpense = ({ expnData, setExpnData }) => {
               message: "Please input your Amount!",
             },
           ]}
+          onChange={handleAmountFieldChange}
         />
 
         <SelectField
@@ -64,7 +64,6 @@ const FormAddExpense = ({ expnData, setExpnData }) => {
             { label: "Yearly", value: "yearly" },
           ]}
           placeholder="Please select category"
-          onChange={onCategoryChange}
           allowClear
         />
         <DateField
@@ -77,7 +76,7 @@ const FormAddExpense = ({ expnData, setExpnData }) => {
             },
           ]}
         />
-        <Form.Item style={{marginTop: '50px', marginBottom: '50px'}}>
+        <Form.Item style={{ marginTop: "50px", marginBottom: "50px" }}>
           <Button type="primary" htmlType="submit">
             Submit
           </Button>
